@@ -1,4 +1,4 @@
-# Show Details App
+#TV Show Dashboard App
 
 A responsive web application built with **Vue 3**, **TypeScript**, and **Vite** that displays TV show details and episodes, using the TVMaze API.
 
@@ -40,3 +40,12 @@ npm run dev
 ```
 
 The application will start (http://localhost:5173/ by default).
+
+
+## Running Unit Tests
+
+To run unit tests, use the following command:
+
+```sh
+npm run test
+```
