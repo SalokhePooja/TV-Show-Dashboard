@@ -85,8 +85,13 @@ onMounted(async () => {
   shows.value = await fetchAllShows();
   // Collect genres
   const allGenres = new Set<string>();
-  shows.value.forEach((show) => show.genres.forEach((g) => allGenres.add(g)));
+  shows.value.forEach((show) => {
+    if (Array.isArray(show.genres)) {
+      show.genres.forEach((g) => allGenres.add(g));
+    }
+  });
   genres.value = Array.from(allGenres).sort();
+
   loading.value = false;
 });
 

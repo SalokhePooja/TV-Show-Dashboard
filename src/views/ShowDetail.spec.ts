@@ -1,80 +1,119 @@
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { mount, flushPromises } from "@vue/test-utils";
-import ShowDetail from "../../src/views/ShowDetail.vue";
-import * as api from "../../src/services/tvMazeService";
-import { createRouter, createWebHistory } from "vue-router";
+import ShowDetail from "./ShowDetail.vue";
 
-vi.mock("../../src/services/tvMazeService");
+// Create mocks BEFORE vi.mock
+const pushMock = vi.fn();
+const routeParams = { id: "123" };
 
-const showMock = {
-  id: 1,
-  name: "TestShow",
-  genres: ["Drama"],
-  image: { original: "img.jpg", medium: "img.jpg" },
-  rating: { average: 8 },
-  summary: "Show summary",
-};
-const episodesMock = [
-  {
-    id: 1,
-    name: "Ep1",
-    image: { medium: "epimg.jpg", original: "epimg.jpg" },
-    season: 1,
-    number: 1,
-    airdate: "2023-01-01",
-  },
-  {
-    id: 2,
-    name: "Ep2",
-    image: null,
-    season: 1,
-    number: 2,
-    airdate: "2023-01-08",
-  },
-];
+// Mock vue-router
+vi.mock("vue-router", () => ({
+  useRouter: () => ({ push: pushMock }),
+  useRoute: () => ({ params: routeParams }),
+}));
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [{ path: "/show/:id", component: ShowDetail }],
-});
+// Mock service
+vi.mock("../services/tvMazeService", () => ({
+  fetchShowById: vi.fn(),
+  fetchEpisodes: vi.fn(),
+}));
+
+import { fetchShowById, fetchEpisodes } from "../services/tvMazeService";
 
 describe("ShowDetail.vue", () => {
   beforeEach(() => {
-    (api.fetchShowById as any)
-      .mockResolvedValue(showMock)(api.fetchEpisodes as any)
-      .mockResolvedValue(episodesMock);
+    vi.clearAllMocks();
+    routeParams.id = "123";
   });
 
-  it("renders show details and episode horizontal list", async () => {
-    router.push("/show/1");
-    await router.isReady();
-    const wrapper = mount(ShowDetail, {
-      global: { plugins: [router] },
-    });
+  it("shows loading initially", async () => {
+    (fetchShowById as any).mockResolvedValue({ id: 123 });
+    (fetchEpisodes as any).mockResolvedValue([]);
+    const wrapper = mount(ShowDetail);
+    expect(wrapper.find(".center").text()).toContain("Loading");
     await flushPromises();
-    expect(wrapper.text()).toContain("TestShow");
-    expect(wrapper.text()).toContain("Drama");
-    expect(wrapper.text()).toContain("Show summary");
-    // Episodes
-    expect(wrapper.text()).toContain("Ep1");
-    expect(wrapper.text()).toContain("Ep2");
-    // Episode image
-    expect(wrapper.findAll(".episode-card img")[0].attributes("src")).toBe(
-      "epimg.jpg",
-    );
-    // Fallback image for missing
-    expect(wrapper.findAll(".episode-card img")[1].attributes("src")).toMatch(
-      /No\+Image/,
+  });
+
+  it("shows show details when show and episodes are loaded", async () => {
+    const mockShow = {
+      id: 123,
+      name: "Test Show",
+      genres: ["Drama", "Comedy"],
+      rating: { average: 8.5 },
+      summary: "<p>Summary of show</p>",
+      image: { medium: "someimage.jpg" },
+    };
+    const mockEpisodes = [
+      {
+        id: 1,
+        name: "Episode 1",
+        image: { medium: "ep1.jpg" },
+      },
+    ];
+    (fetchShowById as any).mockResolvedValue(mockShow);
+    (fetchEpisodes as any).mockResolvedValue(mockEpisodes);
+
+    const wrapper = mount(ShowDetail);
+    await flushPromises();
+    expect(wrapper.find("h1").text()).toBe("Test Show");
+    expect(wrapper.find(".genres").text()).toContain("Drama, Comedy");
+    expect(wrapper.find(".rating").text()).toContain("⭐ 8.5");
+    expect(wrapper.find(".summary").html()).toContain("Summary of show");
+    expect(wrapper.findAll(".episode-card")).toHaveLength(1);
+    expect(wrapper.find(".ep-name").text()).toBe("Episode 1");
+  });
+
+  it("shows no episodes message when episodes list is empty", async () => {
+    const mockShow = {
+      id: 123,
+      name: "Test Show",
+      genres: [],
+      rating: { average: null },
+      summary: "<p>No episodes summary</p>",
+      image: { medium: "" },
+    };
+    (fetchShowById as any).mockResolvedValue(mockShow);
+    (fetchEpisodes as any).mockResolvedValue([]);
+    const wrapper = mount(ShowDetail);
+    await flushPromises();
+    expect(wrapper.find(".no-episodes").text()).toBe("No episodes found.");
+  });
+
+  it("shows error if show not found", async () => {
+    (fetchShowById as any).mockResolvedValue(null);
+    (fetchEpisodes as any).mockResolvedValue([]);
+    const wrapper = mount(ShowDetail);
+    await flushPromises();
+    expect(wrapper.find(".no-episodes").text()).toBe(
+      "No result found for this show.",
     );
   });
 
-  it('shows "No episodes found" if empty', async () => {
-    (api.fetchEpisodes as any).mockResolvedValue([]);
-    router.push("/show/1");
-    await router.isReady();
-    const wrapper = mount(ShowDetail, {
-      global: { plugins: [router] },
-    });
+  it("shows error if id is NaN", async () => {
+    routeParams.id = "not-a-number";
+    (fetchShowById as any).mockResolvedValue(null);
+    (fetchEpisodes as any).mockResolvedValue([]);
+    const wrapper = mount(ShowDetail);
     await flushPromises();
-    expect(wrapper.text()).toContain("No episodes found.");
+    expect(wrapper.find(".no-episodes").text()).toBe(
+      "No result found for this show.",
+    );
+  });
+
+  it("navigates back when back button is clicked", async () => {
+    const mockShow = {
+      id: 123,
+      name: "Test Show",
+      genres: [],
+      rating: { average: null },
+      summary: "",
+      image: { medium: "" },
+    };
+    (fetchShowById as any).mockResolvedValue(mockShow);
+    (fetchEpisodes as any).mockResolvedValue([]);
+    const wrapper = mount(ShowDetail);
+    await flushPromises();
+    await wrapper.find(".back").trigger("click");
+    expect(pushMock).toHaveBeenCalledWith("/");
   });
 });

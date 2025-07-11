@@ -4,6 +4,7 @@ import {
   fetchEpisodes,
   searchShows,
 } from "../../src/services/tvMazeService";
+import { describe, it, expect, vi, afterEach } from "vitest";
 
 global.fetch = vi.fn();
 

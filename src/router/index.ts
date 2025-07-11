@@ -5,7 +5,10 @@ import ShowDetail from "../views/ShowDetail.vue";
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/show/:id", name: "ShowDetail", component: ShowDetail },
-  // handle http://localhost:5173/show/nvjnv :  redirect to home page
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/",
+  },
 ];
 
 export default createRouter({

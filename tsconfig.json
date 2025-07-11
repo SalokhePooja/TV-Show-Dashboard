@@ -1,20 +1,22 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
   ],
- "compilerOptions": {
+  "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
-    "types": ["vitest/globals"], 
+    "types": [
+      "vitest/globals"
+    ],
     "skipLibCheck": true
   },
-  "include": ["src"] 
- // "include": ["src", "**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx"]
-
-
 }

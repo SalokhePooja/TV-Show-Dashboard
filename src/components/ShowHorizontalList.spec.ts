@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
-import ShowHorizontalList from "../../src/components/ShowHorizontalList.vue";
-import ShowCard from "../../src/components/ShowCard.vue";
+import ShowHorizontalList from "../components/ShowHorizontalList.vue";
+import ShowCard from "../components/ShowCard.vue";
+import { describe, it, expect } from "vitest";
 
 describe("ShowHorizontalList.vue", () => {
   const shows = [
@@ -11,6 +12,7 @@ describe("ShowHorizontalList.vue", () => {
       image: null,
       rating: { average: 9 },
       summary: "",
+      premiered: "",
     },
     {
       id: 2,
@@ -19,6 +21,7 @@ describe("ShowHorizontalList.vue", () => {
       image: null,
       rating: { average: 7 },
       summary: "",
+      premiered: "",
     },
   ];
 
