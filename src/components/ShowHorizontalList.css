@@ -1,0 +1,21 @@
+.horizontal-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #eee;
+}
+
+.horizontal-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.horizontal-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.horizontal-list::-webkit-scrollbar-track {
+  background: #eee;
+}

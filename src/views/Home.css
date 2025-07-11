@@ -1,0 +1,24 @@
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.genre-section {
+  margin-bottom: 2.5rem;
+}
+.center {
+  text-align: center;
+  margin: 2rem 0;
+}
+h2,
+h3 {
+  margin-bottom: 0.5rem;
+  color: #3e3e3e;
+}
+.no-search-found {
+  text-align: center;
+  color: #a33;
+  font-size: 1.15rem;
+  margin: 2rem 0;
+  font-weight: 500;
+}

@@ -1,0 +1,35 @@
+:root {
+  --primary: #252525;
+  --accent: #f6b93b;
+  --bg: #f8f8f8;
+  --radius: 10px;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 600px) {
+  .shows-row {
+    flex-wrap: wrap;
+    overflow-x: unset;
+  }
+  .show-card {
+    width: 45vw;
+  }
+  .detail-img {
+    width: 90vw;
+  }
+}
