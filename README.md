@@ -14,65 +14,29 @@ A responsive web application built with **Vue 3**, **TypeScript**, and **Vite** 
 
 ## Getting Started
 
-### Prerequisites
+### Requirements
 
-- Node.js (>= 16)
-- npm (>= 7) or yarn
+- Node.js **v22.13.1**
+- npm **v11.1.0**
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/show-details-app.git
-   cd show-details-app
-   ```
+#### Clone the repository
 
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+```sh
+git clone https://github.com/SalokhePooja/TV-Show-Dashboard
+```
 
-### Running the App
+#### Install the packages
 
-Start the development server:
-```bash
+```sh
+npm install
+```
+
+#### Start the dev server
+
+```sh
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-### Linting and Formatting
-
-To lint your code:
-```bash
-npm run lint
-```
-
-To format your code:
-```bash
-npm run format
-```
-
-## Project Structure
-
-```
-src/
-  components/        # Vue components
-  services/          # API service functions
-  types/             # TypeScript type definitions
-  assets/            # Images and SVGs
-  App.vue            # Root component
-  main.ts            # App entry point
-```
-
-## License
-
-
-
----
-
-**Made with Vue 3, TypeScript, and ❤️**
+The application will start (http://localhost:5173/ by default).
