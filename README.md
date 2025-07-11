@@ -16,8 +16,8 @@ A responsive web application built with **Vue 3**, **TypeScript**, and **Vite** 
 
 ### Requirements
 
-- Node.js **v22.13.1**
-- npm **v11.1.0**
+- Node.js **v23.6.0**
+- npm **v10.9.2**
 
 ### Installation
 
