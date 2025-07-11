@@ -1,4 +1,4 @@
-#TV Show Dashboard App
+## TV Show Dashboard App
 
 A responsive web application built with **Vue 3**, **TypeScript**, and **Vite** that displays TV show details and episodes, using the TVMaze API.
 
