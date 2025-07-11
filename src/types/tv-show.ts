@@ -9,18 +9,6 @@ export interface Show {
   [key: string]: any;
 }
 
-// export interface ShowDetail {
-//   id: number;
-//   name: string;
-//   image?: { original: string };
-//   summary: string;
-//   genres: string[];
-//   rating: { average: number | null };
-//   language: string;
-//   status: string;
-//   [key: string]: any;
-// }
-
 export interface Episode {
   id: number;
   name: string;
